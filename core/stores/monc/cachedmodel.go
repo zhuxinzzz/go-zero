@@ -47,6 +47,12 @@ func NewModel(uri, db, collection string, conf cache.CacheConf, opts ...cache.Op
 	return NewModelWithCache(uri, db, collection, c)
 }
 
+// NewModelNoColl returns a Model with a cache cluster.
+func NewModelNoColl(uri, db, conf cache.CacheConf, opts ...cache.Option) (*Model, error) {
+	c := cache.New(conf, singleFlight, stats, mongo.ErrNoDocuments, opts...)
+	return NewModelWithCache(uri, db, "", c)
+}
+
 // NewModelWithCache returns a Model with a custom cache.
 func NewModelWithCache(uri, db, collection string, c cache.Cache) (*Model, error) {
 	return newModel(uri, db, collection, c)
